@@ -1,0 +1,119 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .phrases {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 120px;
+    animation: fadeIn 5s ease 10s forwards;
+   
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  
+  
+ 
+  
+  .phrase2::after {
+    content: '|';
+    animation: blinkCursor 1s infinite step-end;
+  }
+  
+  @keyframes blinkCursor {
+    from, to {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  .phrase1 {
+    color: rgb(175, 8, 8);
+    opacity: 1;
+    animation: fadeOutPhrase1 5s ease forwards;
+    margin-left: 60px;
+  }
+  
+  .phrase2 {
+    color: #1c262f;
+    margin-left: 60px;
+    opacity: 1;
+    animation: fadeOutPhrase2 5s ease forwards;
+  }
+  
+  @keyframes fadeOutPhrase1 {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      display: none;
+    }
+  }
+  
+  @keyframes fadeOutPhrase2 {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      display: none;
+    }
+  }
+  
+  .new-phrase-text {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 120px;
+    margin-top: 50px;
+    animation: fadeIn 5s ease forwards;
+  }
+  
+  .my-reports-button {
+    display: block;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    background: #333;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 3px solid #333;
+    transition: all 0.35s;
+    margin-left: 320px;
+    margin-top: 100px;
+    border-radius: 5px;
+    animation: fadeIn 5s ease forwards;
+  }
+  
+  .my-reports-button:hover {
+    width: 200px;
+    border: 3px solid #901b1b;
+    background: transparent;
+    color: #901b1b;
+  }
+  

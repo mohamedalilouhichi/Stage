@@ -1,0 +1,363 @@
+
+
+
+
+
+
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "CustomFont";
+}
+
+@font-face {
+  font-family: "CustomFont";
+  src: url("../fonts/RolexLight.woff2");
+}
+
+.cover {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  position: absolute;
+top: 50%;
+left: 50%;
+width: 400px;
+padding: 40px;
+transform: translate(-50%, -50%);
+background: rgba(0,0,0,.5);
+box-sizing: border-box;
+box-shadow: 0 15px 25px rgba(0,0,0,.6);
+border-radius: 10px;
+}
+
+.box h1 {
+  margin: 0 0 30px;
+padding: 0;
+color: #777474;
+text-align: center;
+}
+.box h1:before {
+  content: " Offre n°180NCYQ. ";
+  color: #f10404;
+  font-size: 0.7em;
+}
+input {
+  width: 100%;
+padding: 10px 0;
+font-size: 16px;
+color: #fff;
+margin-bottom: 30px;
+border: none;
+border-bottom: 1px solid #fff;
+outline: none;
+background: transparent;
+}
+
+input:focus {
+  background:#1f1d22;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgb(205, 14, 14),
+              0 0 25px rgba(205, 14, 14, 0.607),
+              0 0 50px rgba(205, 14, 14, 0.326),
+              0 0 100px rgba(205, 14, 14, 0);
+}
+
+.login-btn {
+  width: 80%;
+  height: 3em;
+  background-color: #f10404;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  border-radius: 0.25em;
+  cursor: pointer;
+  margin-top: 1em;
+  margin-left: 30px;
+}
+
+.google {
+  background-image: url("../pages/google.png");
+}
+
+.facebook {
+  background-image: url("../pages/facebook.png");
+}
+
+.login-btn:hover {
+  transform: scale(1.25);
+}
+
+.text {
+  margin-top: 1em;
+}
+
+.hide {
+  display: none;
+}
+.login-popup.hide {
+  display: none;
+}
+.login-popup {
+  height: 15em;
+  width: 26.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25em;
+  background-color: black;
+  color: white;
+  margin-top: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.login-popup.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.login-popup.show.failed {
+  background-color: red;
+  box-shadow: 0 0 1em #f10404;
+}
+
+.register-btn {
+  width: 100%;
+  height: 3em;
+  background-color: rgba(20, 20, 20, 0.059);
+  color: #6c757d;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  border-radius: 2em;
+  cursor: pointer;
+  margin-top: 2em;
+  font-size: 12px;
+}
+.register-btn:hover {
+  transform: scale(1.15);
+}
+
+
+.register-btn a {
+  color: rgb(221, 218, 218);
+  text-decoration:none;
+  font-size: inherit;
+  font-weight: normal;
+  
+}
+.signup-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 370px;
+  padding: 10px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+.profile-info-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  text-align: center;
+}
+.form-container {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: 300px;
+  padding: 20px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  text-align: center;
+}
+.form-container label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 5px;
+  font-size: 12px;
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+
+.profile-info-box p {
+  margin-bottom: 10px;
+}
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.profile-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+}
+
+
+button[type="submit"] {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+button[type="button"] {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+
+.error-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.error-popup-content {
+  width: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-popup-content p {
+  margin-bottom: 10px;
+}
+
+.error-popup-content button {
+  padding: 5px 10px;
+  background-color: #f10404;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.navbar {
+  background-color: #212d37; 
+}
+
+
+.signup-title {
+text-align: center;
+font-size: 24px;
+margin-bottom: 20px;
+color: #f10404;
+}
+
+.signup-box {
+  width: 25em;
+  padding: 0.7em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  background-color: #212d3794;
+  color: rgb(110, 110, 110);
+}
+
+.signup-box label {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.signup-box input[type="text"],
+.signup-box input[type="email"],
+.signup-box input[type="password"] {
+  width: 300px;
+  padding: 6px;
+  font-size: 11px;
+  margin-top: 4px;
+  color: #fff;
+  margin-bottom: 6px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.signup-box div {
+  margin-bottom: 6px;
+}
+
+.signup-box label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.signup-box button {
+  width: 100%;
+  padding: 4px;
+  font-size: 11px;
+  color: #fff;
+  background-color: #f10404;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.signup-box button:hover {
+  background-color: #e60000;
+}
+.forgotpwd{
+  font-size: 17px;
+  margin: 0 0 30px;
+  padding: 0;
+  color: #777474;
+  text-align: center
+}

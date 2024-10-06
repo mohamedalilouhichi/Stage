@@ -1,0 +1,40 @@
+/* ReportsPage.css */
+
+/* Style for the table */
+table {
+    border-collapse: collapse;
+    width: 50%;
+    border: 1px solid #ffffff;
+    margin: 0 auto;
+    margin-top: 10%;
+  }
+  
+  /* Style for table header cells */
+  th {
+    border: 1px solid #5b5b5b;
+    padding: 8px;
+    text-align: left;
+    background-color: #850303;
+  }
+  
+  /* Style for table body cells */
+  td {
+    border: 1px solid #5b5b5b;
+    padding: 8px;
+  }
+  
+  /* Add alternating background colors to rows for better readability */
+  tr:nth-child(even) {
+    background-color: #212d37;
+    
+  }
+  .reports-page-content {
+  margin-top: 50px; /* Adjust the margin as needed */
+}
+
+.reports-heading {
+  color: #ffffff; /* Change the text color as needed */
+  font-size: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+}
