@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import oauth2Service from './oauth2.service';
 import { config } from './config';
 
@@ -30,34 +29,29 @@ const LoginForm = () => {
         }
     };
 
-    const handleManualLogin = async () => {
+    const handleManualLogin = () => {
         const email = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        try {
-            const response = await axios.post('/api/login', {
-                email,
-                password,
-            });
+        // Retrieve stored user data from local storage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
 
-            if (response.data.success) {
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-                navigate(`/index?token=${token}`, { replace: true });
-            } else {
-                showPopup('login-popup show');
-                setTimeout(() => {
-                    showPopup('login-popup hide');
-                }, 2000); // hide the popup error after 3 seconds
-            }
-        } catch (error) {
-            console.error(error);
+        // Validate entered credentials
+        if (storedUser && storedUser.email === email && storedUser.password === password) {
+            // Successful login
+            const token = 'dummy-token'; // You can set a real token or handle it as you need
+            localStorage.setItem('token', token);
+            navigate(`/index?token=${token}`, { replace: true });
+        } else {
+            // Show error popup for failed login
             showPopup('login-popup show');
             setTimeout(() => {
                 showPopup('login-popup hide');
-            }, 2000); // hide the popup error after 3 seconds
+            }, 2000);
         }
-    };    useEffect(() => {
+    };
+
+    useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const provider = urlParams.get('provider');
@@ -80,7 +74,6 @@ const LoginForm = () => {
                 <div className="login-btn" onClick={handleManualLogin}>
                     Login
                 </div>
-
 
                 <p className="text">
                     <button className="register-btn" onClick={() => navigate('/signup')}>

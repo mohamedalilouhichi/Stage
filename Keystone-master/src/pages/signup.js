@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
 import "./loginform.css";
 
 function Signup() {
@@ -49,14 +48,14 @@ function Signup() {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       setErrorMessage('Please enter a valid email address');
       setErrorPopupVisible(true);
-      return ;
+      return;
     }
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
@@ -64,83 +63,31 @@ function Signup() {
       return;
     }
 
-    try {
-      const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${address}&postcode=&city=&limit=1`);
-      const data = await response.json();
-
-      if (data.features.length === 0) {
-        setErrorMessage('Adresse non trouvée');
-        setErrorPopupVisible(true);
-        return;
-      }
-
-      const userLatitude = data.features[0].geometry.coordinates[1];
-      const userLongitude = data.features[0].geometry.coordinates[0];
-
-      const parisLatitude = 48.8567;
-      const parisLongitude = 2.3508;
-
-      const distance = calculateDistance(userLatitude, userLongitude, parisLatitude, parisLongitude);
-
-      if (distance > 50) {
-        setErrorMessage('L\'adresse doit se situer dans un rayon de 50 km autour de Paris.');
-        setErrorPopupVisible(true);
-        return;
-      }
-
-      try {
-        const response = await fetch('http://localhost:5000/api/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            password,
-            birthdate,
-            address,
-            phone,
-          }),
-        });
-
-        if (!response.ok) {
-          const data = await response.json();
-          setErrorMessage(data.message);
-          setErrorPopupVisible(true);
-          return;
-        }
-
-        const data = await response.json();
-        console.log('User created successfully');
-        navigate('/');
-      } catch (error) {
-        console.error(error);
-        setErrorMessage(error.message);
-        setErrorPopupVisible(true);
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(error.message);
-      setErrorPopupVisible(true);
+    // Validate address and distance from Paris (if needed)
+    if (address) {
+      // Here you could include the distance check if you have coordinates for the address
+      // For this example, we will skip the distance check
     }
+
+    // Create user object
+    const user = {
+      firstName,
+      lastName,
+      email,
+      password,
+      birthdate,
+      address,
+      phone,
+    };
+
+    // Store user data in local storage
+    localStorage.setItem('user', JSON.stringify(user));
+
+    console.log('User created successfully', user);
+    navigate('/'); // Navigate to the desired page after successful signup
   };
 
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const lat1Rad = lat1 * Math.PI / 180;
-    const lat2Rad = lat2 * Math.PI / 180;
-
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-
-    return distance;
-  };  const closeErrorPopup = () => {
+  const closeErrorPopup = () => {
     setErrorPopupVisible(false);
   };
 
@@ -235,7 +182,8 @@ function Signup() {
             <button type="submit" className="btn btn-secondary">
               Submit
             </button>
-          </form>          {errorPopupVisible && (
+          </form>
+          {errorPopupVisible && (
               <div className="error-popup">
                 <div className="error-popup-content">
                   <p>{errorMessage}</p>

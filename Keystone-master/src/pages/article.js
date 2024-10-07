@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from "./menu";
 import './article.css';
-import axios from 'axios';
 
 function Article() {
     const [firstName, setFirstName] = useState('');
@@ -14,43 +13,29 @@ function Article() {
     const [editing, setEditing] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axios.get('/api/user-data', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-                .then(response => {
-                    const userData = response.data;
-                    setFirstName(userData.firstName);
-                    setLastName(userData.lastName);
-                    setEmail(userData.email);
-                    setPhone(userData.phone);
-                    setAddress(userData.address);
-                    setBirthdate(userData.birthdate);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        // Load user data from local storage
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData) {
+            setFirstName(userData.firstName);
+            setLastName(userData.lastName);
+            setEmail(userData.email);
+            setPhone(userData.phone);
+            setAddress(userData.address);
+            setBirthdate(userData.birthdate);
         }
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
-        axios.post('/api/update-user-data', { firstName, lastName, email, phone, address, birthdate }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                console.log('User data updated successfully:', response.data);
-                setEditing(false);
-            })
-            .catch(error => {
-                console.error('Error updating user data:', error);
-            });
+
+        // Create user object
+        const updatedUser = { firstName, lastName, email, phone, address, birthdate };
+
+        // Store updated user data in local storage
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        console.log('User data updated successfully:', updatedUser);
+        setEditing(false);
     };
 
     return (
@@ -62,59 +47,46 @@ function Article() {
                         <h1>Profile</h1>
                     </div>
                     <div className="profile-info">
-
                         <div className="profile-details">
                             {editing ? (
                                 <div className="form-container">
                                     <form onSubmit={handleSubmit}>
-                                        <label>
-                                            Prénom:
-                                        </label>
+                                        <label>Prénom:</label>
                                         <input
                                             type="text"
                                             value={firstName}
                                             onChange={(e) => setFirstName(e.target.value)}
                                         />
                                         <br />
-                                        <label>
-                                            Nom:
-                                        </label>
+                                        <label>Nom:</label>
                                         <input
                                             type="text"
                                             value={lastName}
                                             onChange={(e) => setLastName(e.target.value)}
                                         />
                                         <br />
-                                        <label>
-                                            Email:
-                                        </label>
+                                        <label>Email:</label>
                                         <input
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
                                         <br />
-                                        <label>
-                                            Téléphone:
-                                        </label>
+                                        <label>Téléphone:</label>
                                         <input
                                             type="text"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
                                         />
                                         <br />
-                                        <label>
-                                            Adresse:
-                                        </label>
+                                        <label>Adresse:</label>
                                         <input
                                             type="text"
                                             value={address}
                                             onChange={(e) => setAddress(e.target.value)}
                                         />
                                         <br />
-                                        <label>
-                                            Date de naissance:
-                                        </label>
+                                        <label>Date de naissance:</label>
                                         <input
                                             type="date"
                                             value={birthdate}

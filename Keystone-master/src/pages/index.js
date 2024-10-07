@@ -12,12 +12,8 @@ import {useLocation, useParams} from 'react-router-dom';
 
 function Index() {
     const location = useLocation();
-    const token = new URLSearchParams(location.search).get('token');
 
-    if (!token) {
-        // Redirect to login page if no token is present
-        window.location.href = '/';
-    }
+
     return (
         <Fragment>
             <body>
