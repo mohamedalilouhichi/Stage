@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
 import "./loginform.css";
 
 function Signup() {
@@ -48,25 +49,79 @@ function Signup() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const validateAddress = async (address) => {
+    try {
+      // Make a request to the adresse.data.gouv.fr API
+      const response = await axios.get(`https://api-adresse.data.gouv.fr/search/?q=${address}&limit=1`);
+      const { features } = response.data;
+
+      if (features.length === 0) {
+        setErrorMessage("Address not found. Please enter a valid address.");
+        setErrorPopupVisible(true);
+        return false;
+      }
+
+      // Extract the coordinates of the address
+      const { coordinates } = features[0].geometry;
+      const [userLongitude, userLatitude] = coordinates;
+
+      // Paris coordinates
+      const parisLongitude = 2.3522; // Longitude of Paris
+      const parisLatitude = 48.8566;  // Latitude of Paris
+
+      // Calculate the distance between the two coordinates using Haversine formula
+      const distance = haversineDistance(
+          { latitude: userLatitude, longitude: userLongitude },
+          { latitude: parisLatitude, longitude: parisLongitude }
+      );
+
+      if (distance > 50) {
+        setErrorMessage("L'adresse de l'utilisateur doit être située à moins de 50 km de Paris.");
+        setErrorPopupVisible(true);
+        return false;
+      }
+
+      return true; // Address is valid and within range
+    } catch (error) {
+      console.error("Error validating address:", error);
+      setErrorMessage("An error occurred while validating the address. Please try again.");
+      setErrorPopupVisible(true);
+      return false;
+    }
+  };
+
+  const haversineDistance = (coords1, coords2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371; // Radius of the Earth in km
+    const dLat = toRad(coords2.latitude - coords1.latitude);
+    const dLon = toRad(coords2.longitude - coords1.longitude);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(coords1.latitude)) * Math.cos(toRad(coords2.latitude)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-      setErrorMessage('Please enter a valid email address');
+      setErrorMessage("Please enter a valid email address");
       setErrorPopupVisible(true);
       return;
     }
     if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match');
+      setErrorMessage("Passwords do not match");
       setErrorPopupVisible(true);
       return;
     }
 
-    // Validate address and distance from Paris (if needed)
-    if (address) {
-      // Here you could include the distance check if you have coordinates for the address
-      // For this example, we will skip the distance check
+    // Validate the address
+    const isAddressValid = await validateAddress(address);
+    if (!isAddressValid) {
+      return; // Stop if the address is invalid
     }
 
     // Create user object
@@ -81,10 +136,10 @@ function Signup() {
     };
 
     // Store user data in local storage
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
 
-    console.log('User created successfully', user);
-    navigate('/'); // Navigate to the desired page after successful signup
+    console.log("User created successfully", user);
+    navigate("/"); // Navigate to the desired page after successful signup
   };
 
   const closeErrorPopup = () => {
