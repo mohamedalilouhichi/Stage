@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "start:frontend": "cd keystone-master && npm start",
-    "start:backend": "cd keystone-master/src/next && npm run env"
+    "start:frontend": "cd ./keystone-master && npm start",
+    "start:backend": "cd ./keystone-master/src/next && npm run env"
   },
   "devDependencies": {
     "concurrently": "^9.0.1"
