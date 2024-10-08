@@ -12,6 +12,16 @@ const oauth2Service = {
 
         return token;
     },
+
+    fetchUserData: async (token) => {
+        const userInfoUrl = 'https://www.googleapis.com/oauth2/v3/userinfo'; // Google user info endpoint
+        const response = await axios.get(userInfoUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data; // Return user data
+    },
 };
 
 export default oauth2Service;

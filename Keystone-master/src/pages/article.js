@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from "./menu";
 import './article.css';
+import oauth2Service from './oauth2.service'; // Import the oauth2Service
 
 function Article() {
     const [firstName, setFirstName] = useState('');
@@ -11,6 +12,7 @@ function Article() {
     const [address, setAddress] = useState('');
     const [birthdate, setBirthdate] = useState('');
     const [editing, setEditing] = useState(false);
+    const [token, setToken] = useState(null); // State for the token
 
     useEffect(() => {
         // Load user data from local storage
@@ -23,7 +25,27 @@ function Article() {
             setAddress(userData.address);
             setBirthdate(userData.birthdate);
         }
+
+        // Check for token in local storage and fetch user data
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+            fetchUserData(storedToken);
+        }
     }, []);
+
+    const fetchUserData = async (token) => {
+        try {
+            const userData = await oauth2Service.fetchUserData(token);
+            // Set state with user data
+            setFirstName(userData.given_name || ''); // Assuming given_name for first name
+            setLastName(userData.family_name || ''); // Assuming family_name for last name
+            setEmail(userData.email || '');
+            // You can set phone, address, and birthdate if available in userData
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
