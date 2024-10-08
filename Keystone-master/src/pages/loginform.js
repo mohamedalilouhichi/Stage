@@ -39,7 +39,7 @@ const LoginForm = () => {
         // Validate entered credentials
         if (storedUser && storedUser.email === email && storedUser.password === password) {
             // Successful login
-            const token = 'dummy-token'; // You can set a real token or handle it as you need
+            const token = '2F0AVG7fiTB3HN5q8jr2Y2sQXJEAuJV9mRFHz7PldSiXnybIWwMc7utmzK7Vhnuq7le_KRnd-token'; // You can set a real token or handle it as you need
             localStorage.setItem('token', token);
             navigate(`/index?token=${token}`, { replace: true });
         } else {
